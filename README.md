@@ -139,6 +139,27 @@ Express_Exercise/
 - **HTTPS validation**: use curl/Postman with `-k` (or trust the cert).
 - **MongoDB persistence**: restart the server and confirm data remains.
 
+### Sample Terminal Runs
+
+1. `curl -k -X POST https://localhost:3443/api/auth/login -H "Content-Type: application/json" -d '{"email":"admin@example.com","password":"ChangeMe123!"}'`  
+   → Returned a JWT, expiration, and admin profile.  
+   ![Login success](Screenshots/1.png)
+2. `curl -k https://localhost:3443/api/users -H "Authorization: Bearer <token>"` (with extra angle brackets)  
+   → `{"message":"Invalid token format"}` confirming malformed headers are rejected.  
+   ![Invalid token format](Screenshots/2.png)
+3. `curl -k https://localhost:3443/api/users -H "Authorization: Bearer <token missing first char>"`  
+   → `{"message":"Invalid token signature"}` showing tampered tokens fail verification.  
+   ![Invalid signature #1](Screenshots/3.png)
+4. `curl -k https://localhost:3443/api/users -H "Authorization: Bearer <valid token>"`  
+   → `{"data":[...]}` listing the admin user, proving the happy path works.  
+   ![Valid users listing](Screenshots/4.png)
+5. `curl -k -X POST https://localhost:3443/api/users -H "Authorization: Bearer $token" -H "Content-Type: application/json" -d '{"name":"Ada Lovelace","email":"ada@example.com","password":"Secret123","role":"admin"}'`  
+   → Created a new user record with timestamps.  
+   ![Create user](Screenshots/5.png)
+6. `curl -k https://localhost:3443/api/users/aaaaaaaaaaaaaaaaaaaaaaaa -H "Authorization: Bearer $token"`  
+   → `{"message":"User not found"}` confirming proper 404 handling for valid-but-missing IDs.  
+   ![User not found](Screenshots/6.png)
+
 ## Docker / Docker Compose
 
 ### Launch MongoDB via Docker
