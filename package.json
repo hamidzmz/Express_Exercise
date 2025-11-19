@@ -1,0 +1,28 @@
+{
+  "name": "express-secure-api",
+  "version": "1.0.0",
+  "description": "Secure Express API with middleware, HTTPS, and MVC structure",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "keywords": [
+    "express",
+    "mvc",
+    "security",
+    "rate-limiting"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.4.0",
+    "mongoose": "^8.20.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}

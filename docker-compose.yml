@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  mongo:
+    image: mongo:6.0
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  app:
+    build: .
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      MONGODB_URI: mongodb://mongo:27017/express_secure_api
+    depends_on:
+      - mongo
+    ports:
+      - "3443:3443"
+    volumes:
+      - ./key.pem:/app/key.pem:ro
+      - ./cert.pem:/app/cert.pem:ro
+
+volumes:
+  mongo-data:
